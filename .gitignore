@@ -1,0 +1,8 @@
+# PDM
+.pdm-python
+
+# Database
+*.sqlite
+
+# Build
+build/
