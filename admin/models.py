@@ -3,12 +3,13 @@
 SQLModels for DB and validation
 """
 
-from typing import Any, Dict, Optional, List
+from datetime import datetime
+from typing import Any, Dict, List, Optional
+
 from pydantic import EmailStr, stricturl
 from sqlalchemy import JSON, Column, DateTime, Enum
-from starlette.requests import Request
 from sqlmodel import Field, Relationship, SQLModel
-from datetime import datetime
+from starlette.requests import Request
 
 MediaUrl = stricturl(allowed_schemes=['video', 'audio', 'text'], tld_required=False)
 """Media url validator. Must have prefix of video, audio, or text. No TLD required.
@@ -78,7 +79,7 @@ class EdlBase(SQLModel):
 
     name: Optional[str] = Field(default=None, index=True)
     description: Optional[str] = Field(default=None)
-    edl: Dict[str, Any] = Field(sa_column=Column(JSON), default=None)
+    logic: Dict[str, Any] = Field(sa_column=Column(JSON), default=None)
 
     async def __admin_repr__(self, request: Request):
         return self.name
