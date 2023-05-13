@@ -8,6 +8,7 @@ from .models import Edl
 
 
 class EdlView(ModelView):
+    detail_template = 'edl_detail.html'
     actions = ['delete', 'render']
 
     @action(
