@@ -3,14 +3,15 @@
 Main application"""
 
 from fastapi import FastAPI
+from sqlmodel import SQLModel
 from starlette.responses import HTMLResponse
 from starlette.routing import Route
-from starlette_admin.contrib.sqlmodel import ModelView, Admin
-from sqlmodel import SQLModel
+from starlette_admin.contrib.sqlmodel import Admin, ModelView
 
-from .models import User, Edl, Render
 from ._version import __version__
 from .db import engine
+from .models import Edl, Render, User
+from .views import EdlView
 
 
 def init_database() -> None:
@@ -34,10 +35,12 @@ app = FastAPI(
 # Create admin
 admin = Admin(engine, title='Alfred')
 
+
 # Add views
 admin.add_view(ModelView(User, icon='fa fa-users'))
-admin.add_view(ModelView(Edl, icon='fa fa-file-video'))
+admin.add_view(EdlView(Edl, icon='fa fa-file-video'))
 admin.add_view(ModelView(Render, icon='fa fa-file-video'))
 
 # Mount to admin to app
+admin.mount_to(app)
 admin.mount_to(app)
