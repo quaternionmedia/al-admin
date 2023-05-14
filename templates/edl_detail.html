@@ -1,4 +1,7 @@
-{% extends "layout.html" %} {%set pk = model.pk_attr%} {% block content %}
+{% extends "layout.html" %} {%set pk = model.pk_attr%} {% block modal %} {%
+include "modals/loading.html" %} {% include "modals/error.html" %} {% include
+"modals/delete.html" %} {%include "modal-render.html" %}{% endblock %} {% block
+content %}
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-12">
@@ -55,7 +58,7 @@
               <a
                 href="{{ url_for(__name__ ~ ':edit', identity=model.identity,pk=obj[pk])}}"
               >
-                <button type="button" class="btn btn-primary btn-block me-2">
+                <button type="button" class="btn btn-ok btn-block me-2">
                   <i class="fa-solid fa-edit me-2"></i>
                   Edit
                 </button>
@@ -71,6 +74,17 @@
                 <i class="fas fa-trash-alt me-2"></i>
                 Delete
               </button>
+              {%endif%} {%if model.can_delete(request)%}
+              <button
+                id="render-btn"
+                type="button"
+                class="btn btn-primary btn-block"
+                data-bs-toggle="modal"
+                data-bs-target="#modal-render"
+              >
+                <i class="fas fa-video me-2"></i>
+                Render
+              </button>
               {%endif%}
             </div>
           </div>
@@ -82,4 +96,38 @@
     </div>
   </div>
 </div>
+{% endblock %} {% block script %}
+<script
+  type="text/javascript"
+  src="{{ url_for(__name__ ~ ':statics', path='js/utils.js') }}"
+></script>
+
+<script>
+  $(function () {
+    $('#modal-render-btn').click(function () {
+      $('#modal-render').modal('hide')
+      $('#modal-loading').modal('show')
+      fetch(
+        "{{ url_for(__name__ ~ ':api', identity=model.identity)  | safe}}?pks={{obj[pk]}}",
+        {
+          method: 'DELETE',
+        }
+      )
+        .then(async response => {
+          if (response.ok) {
+            await new Promise(r => setTimeout(r, 500))
+            $('#modal-loading').modal('hide')
+            window.location.replace(
+              "{{ url_for(__name__ ~ ':list', identity=model.identity)  | safe}}"
+            )
+          } else return Promise.reject()
+        })
+        .catch(async error => {
+          await new Promise(r => setTimeout(r, 500))
+          $('#modal-loading').modal('hide')
+          $('#modal-error').modal('show')
+        })
+    })
+  })
+</script>
 {% endblock %}
