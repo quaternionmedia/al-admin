@@ -43,4 +43,3 @@ admin.add_view(ModelView(Render, icon='fa fa-file-video'))
 
 # Mount to admin to app
 admin.mount_to(app)
-admin.mount_to(app)
