@@ -1,4 +1,4 @@
 from os import environ
 
-PRODUCTION = bool(environ.get('PRODUCTION', False))
+DEBUG = bool(environ.get('DEBUG', True))
 DB_URL = environ.get('DB_URL', 'sqlite:///alfred.sqlite')
