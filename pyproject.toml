@@ -5,8 +5,8 @@ description = "Admin for Alfred"
 authors = [{ name = "Quaternion Media", email = "al-admin@quaternion.media" }]
 dependencies = [
     "al-otto~=0.2",
-    "fastapi~=0.95",
-    "starlette-admin~=0.9",
+    "fastapi~=0.100",
+    "starlette-admin~=0.10",
     "sqlmodel~=0.0",
     "pydantic[email]~=1.10",
 ]
@@ -22,7 +22,7 @@ repository = "https://github.com/quaternionmedia/al-admin"
 [project.optional-dependencies]
 production = ["psycopg2~=2.9", "uvicorn[standard]~=0.21", "gunicorn~=20.1"]
 test = [
-    "pytest~=7.3",
+    "pytest~=7.4",
     "pytest-cov~=4.1",
     "pytest-sugar~=0.9",
     "pytest-xdist~=3.3",
@@ -32,7 +32,7 @@ test = [
 [tool.pdm.dev-dependencies]
 dev = [
     "uvicorn~=0.22",
-    "black~=23.3",
+    "black~=23.7",
     "ruff~=0.0",
 ]
 docs = [
