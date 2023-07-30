@@ -5,10 +5,13 @@ description = "Admin for Alfred"
 authors = [{ name = "Quaternion Media", email = "al-admin@quaternion.media" }]
 dependencies = [
     "al-otto~=0.2",
-    "fastapi~=0.95",
-    "starlette-admin~=0.9",
+    "fastapi~=0.100",
+    "starlette-admin~=0.11",
     "sqlmodel~=0.0",
     "pydantic[email]~=1.10",
+    "authlib>=1.2.1",
+    "httpx>=0.24.1",
+    "itsdangerous>=2.1.2",
 ]
 requires-python = ">=3.8.1,<4.0"
 readme = "README.md"
@@ -30,11 +33,7 @@ test = [
 ]
 
 [tool.pdm.dev-dependencies]
-dev = [
-    "uvicorn~=0.22",
-    "black~=23.3",
-    "ruff~=0.0",
-]
+dev = ["uvicorn~=0.22", "black~=23.3", "ruff~=0.0"]
 docs = [
     "mkdocs~=1.4",
     "mkdocs-material~=9.1",

@@ -4,11 +4,15 @@ Main application"""
 
 from fastapi import FastAPI
 from sqlmodel import SQLModel
+from starlette.middleware import Middleware
+from starlette.middleware.sessions import SessionMiddleware
 from starlette.responses import HTMLResponse
 from starlette.routing import Route
 from starlette_admin.contrib.sqlmodel import Admin, ModelView
 
 from ._version import __version__
+from .auth import OAuthProvider
+from .config import SECRET
 from .db import engine
 from .models import Edl, Render, User
 from .views import EdlView
@@ -33,7 +37,12 @@ app = FastAPI(
 )
 
 # Create admin
-admin = Admin(engine, title='Alfred')
+admin = Admin(
+    engine,
+    title='Alfred',
+    auth_provider=OAuthProvider(),
+    middlewares=[Middleware(SessionMiddleware, secret_key=SECRET)],
+)
 
 
 # Add views
